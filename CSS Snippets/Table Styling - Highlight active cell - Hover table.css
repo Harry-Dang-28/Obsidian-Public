@@ -77,11 +77,39 @@ settings:
     description: Enable Table Glowing
     type: class-toggle
   -
-    id: Banded-row-headng
-    title: Banded Row Cell
+    id: Cell-Styling-Heading
+    title: Cell Styling
     type: heading
     level: 1
     collapsed: true
+  -
+    id: Table-header-heading
+    title: Table Header Color
+    type: heading
+    level: 2
+    collapsed: false
+  -
+    id: purple
+    title: Left color
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: pink
+    title: Right color
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: Banded-row-headng
+    title: Banded Row Cell
+    type: heading
+    level: 2
+    collapsed: false
   -
     id: odd-banded-row
     title: Odd Row

@@ -1,0 +1,506 @@
+/* @settings
+name: Hover Table and Highlight Active Cell
+id: hover-table-highlight-active-cell
+settings: 
+  -
+    id: highlight-active-cell
+    title: Highlight active Table Cell (Editing Mode)
+    description: ⚠️ Requires Obsidian installer version 1.1.9 or later and Obsidian 1.5 or later.
+    type: class-toggle
+    default: true
+  -
+    id: auto-serial-number-dvtable
+    title: Add serial numbers to Dataview
+    description: From Blue Topaz Theme
+    type: class-toggle
+    default: false  
+	-
+    id: toggle-table-transition
+    title: Toggle table zooming effect
+    type: class-toggle
+    default: true
+  -
+    id: active-cell-color
+    title: Active cell color
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: table-margin-top 
+    title: Table margin top (Reading mode)
+    description: Space between table and above line, e.g. 2em = 2 times current font size
+    type: variable-number
+    default: 0.5
+    format: em
+  -
+    id: table-margin-bottom 
+    title: Table margin bottom (Reading mode)
+    description: TSpace between table and below line
+    type: variable-number
+    default: 1.2
+    format: em
+  -
+    id: full-table-var
+    title: Full Table Styling
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: table-full-outline
+    title: Table Outline
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: table-border-color
+    title: Table Border
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: glowing-table-color
+    title: Glowing Table color
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: table-glowing
+    title: Table Glowing
+    description: Enable Table Glowing
+    type: class-toggle
+  -
+    id: Banded-row-headng
+    title: Banded Row Cell
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: odd-banded-row
+    title: Odd Row
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: even-banded-row
+    title: Even Row
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: Hover-table-Color-header
+    title: Hover table color
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: table-hover-thead-color
+    title: Hover Header Color
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: table-hover-row-color
+    title: Hover Row Color
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+  -
+    id: table-hover-color
+    title: Hover cell color
+    type: variable-themed-color
+    opacity: false
+    format: hex
+    default-light: '#'
+    default-dark: '#'
+
+
+ */
+
+/*=============================================
+=            7.9. Gradient Header Background Tables (Bonus Dataview)            =
+=============================================*/
+
+/*=============================================
+=            Style Setting Variables            =
+=============================================*/
+.theme-dark {
+  --active-cell-color: #2dffa1;
+
+  /* Full table Styling */
+  --table-full-outline: #ffffff00;
+  --glowing-table-color: #fff;
+  --glowing-table: 1px 1px 10px var(--glowing-table-color);
+
+  /* Banded Row */
+  --odd-banded-row: #17171700;
+  --even-banded-row: #2a3149;
+
+  /* Color Variable */
+  --pink: #ff80bf;
+  --purple: #9580ff;
+  --gradientDegree: 135deg;
+
+  /* Table Hover */
+  --table-hover-row-color: #ff80bf21;
+  --table-hover-color: #ff80bf21;
+  --table-hover-thead-color: #21395bc7;
+  --table-border-color: #4a4a4a;
+
+  /* Table Spacing between top and bottom */
+  --table-margin-top: 0.5em;
+  --table-margin-bottom: 1.2em;
+}
+
+.theme-dark {
+  /* Table Active Cell outline */
+  --active-cell-color: #2dffa1;
+
+  /* Full table Styling */
+  --table-full-outline: #ffffff00;
+  --glowing-table-color: #fff;
+  --glowing-table: 1px 1px 10px var(--glowing-table-color);
+
+  /* Banded Row */
+  --odd-banded-row: #17171700;
+  --even-banded-row: #2a3149;
+
+  /* Color Variable */
+  --pink: #ff80bf;
+  --purple: #9580ff;
+  --gradientDegree: 135deg;
+
+  /* Table Hover */
+  --table-hover-row-color: #ff80bf21;
+  --table-hover-color: #ff80bf21;
+  --table-hover-thead-color: #21395bc7;
+  --table-border-color: #4a4a4a;
+
+  /* Table Spacing between top and bottom */
+  --table-margin-top: 0.5em;
+  --table-margin-bottom: 1.2em;
+}
+
+/*=============================================
+=            Highlight active cell            =
+=============================================*/
+
+body.highlight-active-cell .table-cell-wrapper:has(.cm-s-obsidian) {
+  outline: 2.5px solid var(--active-cell-color) !important;
+}
+
+
+/*=============================================
+=            Table Styling            =
+=============================================*/
+
+/*----------  Table Outline  ----------*/
+table {
+  outline: 3px solid var(--table-full-outline) !important;
+  outline-offset: -2px;
+}
+
+/* Full table Outline */
+body.show-border-table :is(.markdown-preview-view, .markdown-rendered) :is(th, td) {
+  border: 1px solid var(--table-border-color);
+}
+
+/* Glowing Table */
+.table-glowing :is(.markdown-preview-view, .markdown-rendered) table {
+  box-shadow: var(--glowing-table) !important;
+}
+
+/*----------  Table Header Styling  ----------*/
+thead {
+  background-image: linear-gradient(var(--gradientDegree),
+      var(--purple) 0,
+      var(--pink) 100%);
+  /* background-color: var(--color-accent); */
+}
+
+/* Table header Outline */
+/* thead .table-cell-wrapper {
+  border: 2px solid white !important;
+} */
+
+/*----------  Table Content Styling  ----------*/
+/* Add column and row button */
+.table-col-btn,
+.table-row-btn {
+  color: white !important;
+  outline: 1px solid white;
+  background-image: linear-gradient(var(--gradientDegree),
+      var(--purple) 0,
+      var(--pink) 100%);
+  /* background-color: var(--color-accent); */
+}
+
+
+/*----------  Banded Table Row  ----------*/
+tbody tr:nth-child(odd) {
+  background-color: var(--odd-banded-row) !important;
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--even-banded-row) !important;
+}
+
+
+/*----------  Reading Mode Cell Spacing  ----------*/
+.markdown-preview-view th,
+.markdown-preview-view td {
+  padding-top: 1ch;
+  padding-bottom: 1ch;
+  border: unset;
+  text-align: left;
+}
+
+
+/*=============================================
+=            Hover Table Effect            =
+=============================================*/
+
+/* Table Header Hover */
+:is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) th:hover,
+:is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) thead tr>th:nth-child(2n + 2):hover {
+  background-color: var(--table-hover-thead-color) !important;
+  overflow: hidden;
+}
+
+/* Row Hover Background */
+:is(.markdown-preview-view, .markdown-rendered) table tbody>tr:hover,
+.markdown-rendered tbody tr:nth-child(odd):hover {
+  background-color: var(--table-hover-row-color) !important;
+}
+
+/* Active Cell Hover Background */
+:is(.markdown-preview-view, .markdown-rendered) td:hover,
+.markdown-rendered tbody tr>td:nth-child(2n + 2):hover {
+  background-color: var(--table-hover-color) !important;
+}
+
+/* Table Zoom Out Effect */
+body.toggle-table-transition :is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) tbody tr:nth-child(odd):hover,
+body.toggle-table-transition :is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) tbody tr:hover {
+  background: var(--table-hover-row-color);
+  transform: scale(1.02);
+  transition: transform 0.1s cubic-bezier(0.11, 0.33, 0.23, 0.33);
+  /* overflow: hidden !important; */
+}
+
+body.toggle-table-transition :is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) tbody td:hover {
+  background: var(--table-hover-color);
+  transform: scale(1.02) translateX(5);
+  transition: transform 0.1s cubic-bezier(0.22, 0.66, 0.46, 0.66);
+}
+
+/* List inside Table Cell */
+table :is(ul, ol) {
+  line-height: 1.1;
+}
+
+/* make lists in tables take up less space */
+.markdown-rendered table :is(ul, ol) {
+  /* stylelint-disable-next-line declaration-no-important */
+  margin-block: 0 0 !important;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Spacing between above/bottom line and full table  */
+.markdown-preview-view table {
+  margin-top: var(--table-margin-top);
+  margin-bottom: var(--table-margin-bottom);
+}
+
+/* Hover Dataview round corner of table header in editing mode */
+/* .is-live-preview.markdown-source-view.mod-cm6 .cm-embed-block:hover {
+  border-radius: 0px;
+} */
+
+/*----------  Hide Scrollbar Overflow  ----------*/
+.block-language-dataview.node-insert-event {
+  overflow: hidden !important;
+}
+
+/* automatically turn off readable line length when there is a table */
+.unrestricted-line-length-tables:not(.is-mobile) :is(.markdown-source-view, .markdown-preview-view):has(table,
+  .HyperMD-table-2) {
+  --file-line-width: 100%;
+}
+
+
+/*=============================================
+=            Dataview add serial number            =
+=============================================*/
+
+body.auto-serial-number-dvtable .markdown-source-view:not(.cards) .dataview.table-view-table {
+  counter-reset: sec;
+}
+
+body.auto-serial-number-dvtable .markdown-source-view:not(.cards) .dataview.table-view-table>tbody>tr>td:first-child::before {
+  counter-increment: sec;
+  content: counter(sec) ". ";
+}
+
+body.auto-serial-number-dvtable .markdown-preview-view:not(.cards) .dataview.table-view-table {
+  counter-reset: section;
+}
+
+body.auto-serial-number-dvtable .markdown-preview-view:not(.cards) .dataview.table-view-table>tbody>tr>td:first-child::before {
+  counter-increment: section;
+  content: counter(section) ". ";
+}
+
+
+
+/* 
+name: Dataview
+id: Dataview-style
+collapsed: true
+settings:
+  -
+    id: style-options-for-dataview-plugin-heading
+    title: 1. Dataview list
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: folder-dataview-list-style
+    title: Style
+    title.zh: 样式
+    type: class-select
+    allowEmpty: false
+    default: dataview-list-style-pacman
+    options:
+      -
+        label: Pac-man
+        value: dataview-list-style-pacman
+      -
+        label: Normal
+        value: dataview-list-style-normal
+  -
+    id: style-options-for-dataview-table-plugin-heading
+    title: 2. Dataview table
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: dvtable-style-options
+    title: Dataview table format
+    title.zh: Dataview 表格格式
+    type: class-select
+    allowEmpty: false
+    default: default-dvtable
+    options:
+      -
+        label: Defaut table
+        value: default-dvtable
+      -
+        label: Wrapped table (break all)
+        value: wrapped-dvtable
+      -
+        label: Non-wrapped table (limited cell width)
+        value: no-wrapped-dvtable-cell
+      -
+        label: Non-wrapped table
+        value: no-wrapped-dvtable
+  -
+    id: auto-serial-number-dvtable
+    title: Automatically add serial numbers to tables
+    title.zh: Dataview表格自动添加序号
+    type: class-toggle
+    default: false
+  -
+    id: full-width-dvtable
+    title: Full-width dvtable display
+    title.zh: dataview表格全宽显示
+    description: for Reading View, require Contextual Typography plugin
+    description.zh: 阅读模式下，实现效果需要安装Contextual Typography插件
+    type: class-toggle
+    default: false
+
+*/
+
+/*---------- (Dv) Dataview Table Size  ----------*/
+/* Cell size */
+/* Dv header font size  */
+table.table-view-table>thead>tr>th {
+  font-size: 0.9em;
+}
+
+/* Dv content font size  */
+table.table-view-table>tbody>tr>td {
+  font-size: 0.85em;
+}
+
+/* Don't touch these*/
+body.wrapped-dvtable:not(.no-wrapped-dvtable-cell):not(.no-wrapped-dvtable) :is(.markdown-preview-view, .markdown-rendered) table.dataview.table-view-table>thead>tr,
+body.wrapped-dvtable:not(.no-wrapped-dvtable-cell):not(.no-wrapped-dvtable) :is(.markdown-preview-view, .markdown-rendered) .table.dataview.table-view-table>tbody>tr,
+body.wrapped-table:not(.no-wrapped-table-cell):not(.no-wrapped-table) :is(.markdown-preview-view, .markdown-rendered) table:not([class*="table-view-table"])>thead>tr,
+body.wrapped-table:not(.no-wrapped-table-cell):not(.no-wrapped-table) :is(.markdown-preview-view, .markdown-rendered) table:not([class*="table-view-table"])>tbody>tr {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+body.no-wrapped-dvtable .block-language-dataview,
+body.no-wrapped-table table:not([class*="table-view-table"]) {
+  width: 100%;
+  margin: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+body.no-wrapped-dvtable table.dataview th {
+  padding: 0 20px;
+  font-size: 1em;
+}
+
+body.no-wrapped-dvtable table.dataview tbody tr td:first-child {
+  font-size: 0.9em;
+}
+
+body.no-wrapped-dvtable table.dataview td:not(:first-child),
+body.no-wrapped-dvtable table.dataview tr>td:last-of-type {
+  font-size: 0.9em;
+  max-width: unset;
+}
+
+body.auto-serial-number-dvtable .markdown-source-view:not(.cards) .dataview.table-view-table {
+  counter-reset: sec;
+}
+
+body.auto-serial-number-dvtable .markdown-source-view:not(.cards) .dataview.table-view-table>tbody>tr>td:first-child::before {
+  counter-increment: sec;
+  content: counter(sec) ". ";
+}
+
+body.auto-serial-number-dvtable .markdown-preview-view:not(.cards) .dataview.table-view-table {
+  counter-reset: section;
+}
+
+body.auto-serial-number-dvtable .markdown-preview-view:not(.cards) .dataview.table-view-table>tbody>tr>td:first-child::before {
+  counter-increment: section;
+  content: counter(section) ". ";
+}
+
+body:not(.no-wrapped-dvtable) :is(.markdown-preview-view, .markdown-rendered) .table-view-table>tbody>tr>td,
+body:not(.no-wrapped-dvtable) .markdown-source-view.mod-cm6 .table-view-table>tbody>tr>td {
+  max-width: 18em;
+}
